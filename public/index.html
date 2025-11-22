@@ -1,0 +1,1205 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tonty Awards 2025 - Sistema de Votación</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      background: linear-gradient(135deg, #0d1f0d 0%, #1a0a0a 100%);
+      background-image:
+        radial-gradient(circle at 20% 50%, rgba(220, 20, 60, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 80% 80%, rgba(0, 100, 0, 0.1) 0%, transparent 50%),
+        radial-gradient(circle at 40% 20%, rgba(255, 215, 0, 0.05) 0%, transparent 50%),
+        linear-gradient(135deg, #0d1f0d 0%, #1a0a0a 100%);
+      min-height: 100vh;
+      padding: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .container {
+      max-width: 600px;
+      width: 100%;
+      background: linear-gradient(135deg, #1a2f1a 0%, #2a1a1a 100%);
+      border: 2px solid rgba(255, 215, 0, 0.3);
+      border-radius: 20px;
+      box-shadow:
+        0 20px 60px rgba(0, 0, 0, 0.5),
+        0 0 30px rgba(255, 215, 0, 0.2),
+        inset 0 1px 0 rgba(255, 215, 0, 0.1);
+      overflow: hidden;
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        border-radius: 15px;
+        margin: 10px;
+      }
+    }
+
+    .header {
+      background: linear-gradient(135deg, #8b0000 0%, #0f3d0f 100%);
+      background-image:
+        radial-gradient(circle at 30% 50%, rgba(255, 215, 0, 0.2) 0%, transparent 50%),
+        linear-gradient(135deg, #8b0000 0%, #0f3d0f 100%);
+      color: #ffd700;
+      padding: 25px 20px;
+      text-align: center;
+      border-bottom: 3px solid rgba(255, 215, 0, 0.4);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    }
+
+    @media (max-width: 768px) {
+      .header {
+        padding: 20px 15px;
+      }
+    }
+
+    .header h1 {
+      font-size: 26px;
+      margin-bottom: 8px;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+      color: #ffd700;
+    }
+
+    @media (max-width: 768px) {
+      .header h1 {
+        font-size: 22px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .header h1 {
+        font-size: 20px;
+      }
+    }
+
+    .header p {
+      opacity: 0.95;
+      font-size: 14px;
+      color: #ffed4e;
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    }
+
+    @media (max-width: 480px) {
+      .header p {
+        font-size: 12px;
+      }
+    }
+
+    .content {
+      padding: 25px 20px;
+    }
+
+    @media (max-width: 768px) {
+      .content {
+        padding: 20px 15px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .content {
+        padding: 15px 12px;
+      }
+    }
+
+    .status-badge {
+      display: inline-block;
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+      border: 1px solid rgba(255, 215, 0, 0.3);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    }
+
+    @media (max-width: 480px) {
+      .status-badge {
+        font-size: 10px;
+        padding: 5px 12px;
+      }
+    }
+
+    .status-active {
+      background: linear-gradient(135deg, #0f6b0f 0%, #0a4d0a 100%);
+      color: #90ee90;
+      border-color: #90ee90;
+    }
+
+    .status-pending {
+      background: linear-gradient(135deg, #cc7a00 0%, #995c00 100%);
+      color: #ffd700;
+      border-color: #ffd700;
+    }
+
+    .status-closed {
+      background: linear-gradient(135deg, #4a4a4a 0%, #2a2a2a 100%);
+      color: #cccccc;
+      border-color: #666666;
+    }
+
+    .election-info {
+      margin-bottom: 25px;
+      padding: 15px;
+      background: linear-gradient(135deg, #2a1a1a 0%, #1a2a1a 100%);
+      border: 1px solid rgba(255, 215, 0, 0.2);
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+    }
+
+    @media (max-width: 480px) {
+      .election-info {
+        padding: 12px;
+        margin-bottom: 20px;
+      }
+    }
+
+    .election-info h2 {
+      font-size: 22px;
+      margin-bottom: 10px;
+      color: #ffd700;
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    }
+
+    @media (max-width: 768px) {
+      .election-info h2 {
+        font-size: 20px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .election-info h2 {
+        font-size: 18px;
+      }
+    }
+
+    .election-info p {
+      color: #d4af37;
+      font-size: 14px;
+      margin: 5px 0;
+    }
+
+    @media (max-width: 480px) {
+      .election-info p {
+        font-size: 13px;
+      }
+    }
+
+    .key-code-input {
+      margin-bottom: 25px;
+    }
+
+    @media (max-width: 480px) {
+      .key-code-input {
+        margin-bottom: 20px;
+      }
+    }
+
+    .key-code-input label {
+      display: block;
+      margin-bottom: 8px;
+      color: #ffd700;
+      font-weight: 600;
+      font-size: 14px;
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    }
+
+    @media (max-width: 480px) {
+      .key-code-input label {
+        font-size: 13px;
+      }
+    }
+
+    .key-code-input input {
+      width: 100%;
+      padding: 12px;
+      background: rgba(26, 26, 26, 0.6);
+      border: 2px solid rgba(255, 215, 0, 0.3);
+      border-radius: 8px;
+      font-size: 16px;
+      text-transform: uppercase;
+      transition: all 0.3s;
+      color: #ffd700;
+      font-weight: 600;
+    }
+
+    @media (max-width: 480px) {
+      .key-code-input input {
+        padding: 10px;
+        font-size: 15px;
+      }
+    }
+
+    .key-code-input input::placeholder {
+      color: rgba(255, 215, 0, 0.4);
+    }
+
+    .key-code-input input:focus {
+      outline: none;
+      border-color: #ffd700;
+      background: rgba(26, 26, 26, 0.8);
+      box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+    }
+
+    .candidates {
+      margin-bottom: 20px;
+    }
+
+    .candidate-card {
+      background: linear-gradient(135deg, rgba(139, 0, 0, 0.3) 0%, rgba(15, 61, 15, 0.3) 100%);
+      border: 2px solid rgba(255, 215, 0, 0.3);
+      border-radius: 10px;
+      padding: 15px;
+      margin-bottom: 10px;
+      cursor: pointer;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    }
+
+    @media (max-width: 768px) {
+      .candidate-card {
+        padding: 12px;
+        margin-bottom: 8px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .candidate-card {
+        padding: 10px;
+        flex-wrap: wrap;
+      }
+    }
+
+    .candidate-card:hover {
+      border-color: #ffd700;
+      transform: translateX(5px);
+      box-shadow: 0 4px 15px rgba(255, 215, 0, 0.3);
+    }
+
+    @media (max-width: 480px) {
+      .candidate-card:hover {
+        transform: translateX(3px);
+      }
+    }
+
+    .candidate-card.selected {
+      border-color: #ffd700;
+      background: linear-gradient(135deg, rgba(139, 0, 0, 0.5) 0%, rgba(15, 61, 15, 0.5) 100%);
+      box-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
+    }
+
+    .candidate-name {
+      font-size: 16px;
+      font-weight: 600;
+      color: #ffd700;
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    }
+
+    @media (max-width: 480px) {
+      .candidate-name {
+        font-size: 15px;
+      }
+    }
+
+    .radio {
+      width: 20px;
+      height: 20px;
+      border: 2px solid rgba(255, 215, 0, 0.5);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      background: rgba(0, 0, 0, 0.3);
+    }
+
+    @media (max-width: 480px) {
+      .radio {
+        width: 18px;
+        height: 18px;
+      }
+    }
+
+    .candidate-card.selected .radio {
+      border-color: #ffd700;
+      background: rgba(255, 215, 0, 0.2);
+    }
+
+    .candidate-card.selected .radio::after {
+      content: '';
+      width: 10px;
+      height: 10px;
+      background: #ffd700;
+      border-radius: 50%;
+      box-shadow: 0 0 8px rgba(255, 215, 0, 0.6);
+    }
+
+    @media (max-width: 480px) {
+      .candidate-card.selected .radio::after {
+        width: 8px;
+        height: 8px;
+      }
+    }
+
+    .btn {
+      width: 100%;
+      padding: 14px;
+      border: 2px solid rgba(255, 215, 0, 0.5);
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s;
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    }
+
+    @media (max-width: 480px) {
+      .btn {
+        padding: 12px;
+        font-size: 15px;
+      }
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #8b0000 0%, #0f3d0f 100%);
+      color: #ffd700;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+    }
+
+    .btn-primary:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow:
+        0 8px 25px rgba(255, 215, 0, 0.3),
+        0 0 20px rgba(255, 215, 0, 0.2);
+      border-color: #ffd700;
+      background: linear-gradient(135deg, #a00000 0%, #135013 100%);
+    }
+
+    @media (max-width: 480px) {
+      .btn-primary:hover:not(:disabled) {
+        transform: translateY(-1px);
+      }
+    }
+
+    .btn:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    .message {
+      padding: 12px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+      font-size: 14px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    }
+
+    @media (max-width: 480px) {
+      .message {
+        padding: 10px;
+        font-size: 13px;
+      }
+    }
+
+    .message-success {
+      background: linear-gradient(135deg, rgba(15, 107, 15, 0.3) 0%, rgba(10, 77, 10, 0.3) 100%);
+      color: #90ee90;
+      border: 1px solid #0f6b0f;
+    }
+
+    .message-error {
+      background: linear-gradient(135deg, rgba(139, 0, 0, 0.3) 0%, rgba(100, 0, 0, 0.3) 100%);
+      color: #ff6b6b;
+      border: 1px solid #8b0000;
+    }
+
+    .message-info {
+      background: linear-gradient(135deg, rgba(255, 215, 0, 0.2) 0%, rgba(212, 175, 55, 0.2) 100%);
+      color: #ffd700;
+      border: 1px solid rgba(255, 215, 0, 0.5);
+    }
+
+    .results {
+      margin-top: 20px;
+    }
+
+    .result-item {
+      background: linear-gradient(135deg, rgba(139, 0, 0, 0.2) 0%, rgba(15, 61, 15, 0.2) 100%);
+      border: 1px solid rgba(255, 215, 0, 0.3);
+      border-radius: 10px;
+      padding: 15px;
+      margin-bottom: 10px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    }
+
+    @media (max-width: 480px) {
+      .result-item {
+        padding: 12px;
+        margin-bottom: 8px;
+      }
+    }
+
+    .result-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .result-name {
+      font-weight: 600;
+      color: #ffd700;
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    }
+
+    @media (max-width: 480px) {
+      .result-name {
+        font-size: 15px;
+      }
+    }
+
+    .result-votes {
+      font-weight: 600;
+      color: #d4af37;
+    }
+
+    @media (max-width: 480px) {
+      .result-votes {
+        font-size: 14px;
+      }
+    }
+
+    .result-bar {
+      height: 10px;
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid rgba(255, 215, 0, 0.2);
+      border-radius: 5px;
+      overflow: hidden;
+    }
+
+    @media (max-width: 480px) {
+      .result-bar {
+        height: 8px;
+      }
+    }
+
+    .result-bar-fill {
+      height: 100%;
+      background: linear-gradient(135deg, #8b0000 0%, #0f3d0f 50%, #ffd700 100%);
+      transition: width 0.5s ease;
+      box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+    }
+
+    .winner-badge {
+      background: linear-gradient(135deg, #ffd700 0%, #d4af37 100%);
+      color: #1a0a0a;
+      padding: 4px 12px;
+      border-radius: 12px;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      box-shadow: 0 2px 8px rgba(255, 215, 0, 0.4);
+    }
+
+    @media (max-width: 480px) {
+      .winner-badge {
+        font-size: 10px;
+        padding: 3px 10px;
+      }
+    }
+
+    .no-election {
+      text-align: center;
+      padding: 40px 20px;
+      color: #d4af37;
+    }
+
+    @media (max-width: 480px) {
+      .no-election {
+        padding: 30px 15px;
+      }
+    }
+
+    .no-election h3 {
+      margin-bottom: 10px;
+      color: #ffd700;
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    }
+
+    .loading {
+      text-align: center;
+      padding: 40px;
+      color: #d4af37;
+    }
+
+    @media (max-width: 480px) {
+      .loading {
+        padding: 30px 20px;
+      }
+    }
+
+    .spinner {
+      border: 3px solid rgba(255, 215, 0, 0.2);
+      border-top: 3px solid #ffd700;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 15px;
+    }
+
+    @media (max-width: 480px) {
+      .spinner {
+        width: 35px;
+        height: 35px;
+        border-width: 2px;
+      }
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .refresh-timer {
+      text-align: center;
+      color: #d4af37;
+      font-size: 12px;
+      margin-top: 20px;
+    }
+
+    @media (max-width: 480px) {
+      .refresh-timer {
+        font-size: 11px;
+        margin-top: 15px;
+      }
+    }
+
+    /* Modal styles */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.85);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      animation: fadeIn 0.2s ease;
+      padding: 15px;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .modal {
+      background: linear-gradient(135deg, #1a2f1a 0%, #2a1a1a 100%);
+      border: 2px solid rgba(255, 215, 0, 0.4);
+      border-radius: 16px;
+      padding: 30px;
+      max-width: 400px;
+      width: 90%;
+      box-shadow:
+        0 20px 60px rgba(0, 0, 0, 0.5),
+        0 0 30px rgba(255, 215, 0, 0.2);
+      animation: slideUp 0.3s ease;
+      text-align: center;
+    }
+
+    @media (max-width: 480px) {
+      .modal {
+        padding: 25px 20px;
+        max-width: 350px;
+      }
+    }
+
+    @keyframes slideUp {
+      from {
+        transform: translateY(20px);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    .modal-icon {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      margin: 0 auto 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 30px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+    }
+
+    @media (max-width: 480px) {
+      .modal-icon {
+        width: 50px;
+        height: 50px;
+        font-size: 25px;
+      }
+    }
+
+    .modal-icon-success {
+      background: linear-gradient(135deg, #0f6b0f 0%, #0a4d0a 100%);
+      color: #90ee90;
+      border: 2px solid #90ee90;
+    }
+
+    .modal-icon-error {
+      background: linear-gradient(135deg, #8b0000 0%, #640000 100%);
+      color: #ff6b6b;
+      border: 2px solid #ff6b6b;
+    }
+
+    .modal h3 {
+      font-size: 22px;
+      margin-bottom: 10px;
+      color: #ffd700;
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    }
+
+    @media (max-width: 480px) {
+      .modal h3 {
+        font-size: 20px;
+      }
+    }
+
+    .modal p {
+      color: #d4af37;
+      margin-bottom: 20px;
+      font-size: 15px;
+    }
+
+    @media (max-width: 480px) {
+      .modal p {
+        font-size: 14px;
+      }
+    }
+
+    .modal .btn {
+      margin-top: 10px;
+    }
+
+    .already-voted-container {
+      text-align: center;
+      padding: 30px 20px;
+    }
+
+    @media (max-width: 480px) {
+      .already-voted-container {
+        padding: 25px 15px;
+      }
+    }
+
+    .already-voted-icon {
+      width: 80px;
+      height: 80px;
+      background: linear-gradient(135deg, rgba(15, 107, 15, 0.3) 0%, rgba(10, 77, 10, 0.3) 100%);
+      color: #90ee90;
+      border: 3px solid rgba(144, 238, 144, 0.5);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 40px;
+      margin: 0 auto 20px;
+      box-shadow:
+        0 4px 15px rgba(0, 0, 0, 0.4),
+        0 0 20px rgba(144, 238, 144, 0.3);
+    }
+
+    @media (max-width: 480px) {
+      .already-voted-icon {
+        width: 70px;
+        height: 70px;
+        font-size: 35px;
+      }
+    }
+
+    .already-voted-container h3 {
+      color: #ffd700;
+      margin-bottom: 10px;
+      font-size: 22px;
+      text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+    }
+
+    @media (max-width: 480px) {
+      .already-voted-container h3 {
+        font-size: 20px;
+      }
+    }
+
+    .already-voted-container p {
+      color: #d4af37;
+      margin-bottom: 20px;
+    }
+
+    @media (max-width: 480px) {
+      .already-voted-container p {
+        font-size: 14px;
+        margin-bottom: 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>Tonty Awards 2025</h1>
+      <p>Sistema de Votación</p>
+    </div>
+
+    <div class="content" id="app">
+      <div class="loading">
+        <div class="spinner"></div>
+        <p>Cargando datos de votación...</p>
+      </div>
+    </div>
+  </div>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    let selectedCandidate = null;
+    let currentElection = null;
+    let hasVotedInCurrent = false;
+    let currentVoterName = null;
+    let socket = null;
+    let lastElectionId = null;
+
+    // Initialize WebSocket connection
+    function initWebSocket() {
+      socket = io();
+
+      socket.on('connect', () => {
+        console.log('Connected to server');
+      });
+
+      socket.on('disconnect', () => {
+        console.log('Disconnected from server');
+      });
+
+      // Listen for election updates
+      socket.on('election-update', (election) => {
+        console.log('Election update received:', election);
+
+        // Check if this is a new election
+        if (election && lastElectionId !== election.id) {
+          lastElectionId = election.id;
+          hasVotedInCurrent = false;
+          currentVoterName = null;
+        }
+
+        currentElection = election;
+        renderElection();
+      });
+
+      // Listen for election closure
+      socket.on('election-closed', (results) => {
+        console.log('Election closed, results:', results);
+        currentElection = null;
+        renderResults(results);
+      });
+
+      // Listen for vote events (optional - for live vote count updates)
+      socket.on('vote-cast', (data) => {
+        console.log('Vote cast:', data);
+        // Could update live vote counts here if desired
+      });
+
+      socket.on('connect_error', (error) => {
+        console.error('Connection error:', error);
+        renderError('Error de conexión. Por favor, actualiza la página.');
+      });
+    }
+
+    // Fallback: Fetch current election (used for initial load if WebSocket is slow)
+    async function fetchCurrentElection() {
+      try {
+        const response = await fetch('/api/current-election');
+        const data = await response.json();
+        currentElection = data;
+
+        if (data && data.id) {
+          lastElectionId = data.id;
+        }
+
+        renderElection();
+      } catch (error) {
+        console.error('Error fetching election:', error);
+        renderError('Error al cargar los datos de votación');
+      }
+    }
+
+    // Show modal
+    function showModal(title, message, type) {
+      // Remove existing modal if any
+      const existingModal = document.getElementById('modal');
+      if (existingModal) {
+        existingModal.remove();
+      }
+
+      const iconSymbol = type === 'success' ? '✓' : '✕';
+      const iconClass = type === 'success' ? 'modal-icon-success' : 'modal-icon-error';
+
+      const modalHTML = `
+        <div class="modal-overlay" id="modal" onclick="closeModal(event)">
+          <div class="modal">
+            <div class="modal-icon ${iconClass}">${iconSymbol}</div>
+            <h3>${title}</h3>
+            <p>${message}</p>
+            <button class="btn btn-primary" onclick="closeModal()">OK</button>
+          </div>
+        </div>
+      `;
+
+      document.body.insertAdjacentHTML('beforeend', modalHTML);
+    }
+
+    // Close modal
+    function closeModal(event) {
+      // Only close if clicking overlay or OK button
+      if (!event || event.target.id === 'modal' || event.target.tagName === 'BUTTON') {
+        const modal = document.getElementById('modal');
+        if (modal) {
+          modal.remove();
+        }
+      }
+    }
+
+    // Fetch latest results (fallback)
+    async function fetchLatestResults() {
+      try {
+        const response = await fetch('/api/results/latest');
+        if (response.ok) {
+          const data = await response.json();
+          renderResults(data);
+        } else {
+          renderNoElection();
+        }
+      } catch (error) {
+        console.error('Error fetching results:', error);
+        renderNoElection();
+      }
+    }
+
+    // Smart render - only re-render if needed, preserve form state
+    let currentView = null; // 'voting', 'voted', 'results', 'none'
+
+    function shouldRerender(newView) {
+      if (currentView !== newView) {
+        currentView = newView;
+        return true;
+      }
+      // Don't re-render the voting form if user is actively using it
+      if (newView === 'voting') {
+        const keyCodeInput = document.getElementById('keyCode');
+        // Don't re-render if user has typed something or selected a candidate
+        if (keyCodeInput && (keyCodeInput.value.length > 0 || selectedCandidate)) {
+          return false;
+        }
+      }
+      return true;
+    }
+
+    // Submit vote
+    async function submitVote() {
+      const keyCode = document.getElementById('keyCode').value.trim();
+
+      if (!keyCode) {
+        showModal('Información Faltante', 'Por favor ingresa tu código', 'error');
+        return;
+      }
+
+      if (!selectedCandidate) {
+        showModal('Información Faltante', 'Por favor selecciona un candidato', 'error');
+        return;
+      }
+
+      try {
+        const response = await fetch('/api/vote', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            keyCode: keyCode,
+            candidateId: selectedCandidate
+          })
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+          const voterName = data.voterName || 'Votante';
+          hasVotedInCurrent = true;
+          currentVoterName = voterName;
+
+          showModal(
+            '¡Voto Enviado!',
+            `¡Gracias, ${voterName}! Tu voto ha sido registrado exitosamente.`,
+            'success'
+          );
+
+          // Clear form and refresh after modal closes
+          document.getElementById('keyCode').value = '';
+          selectedCandidate = null;
+
+          setTimeout(() => {
+            fetchCurrentElection();
+          }, 2000);
+        } else {
+          if (data.error && data.error.includes('already voted')) {
+            hasVotedInCurrent = true;
+            fetchCurrentElection();
+          }
+          showModal('Error al Votar', data.error || 'No se pudo enviar el voto', 'error');
+        }
+      } catch (error) {
+        console.error('Error submitting vote:', error);
+        showModal('Error', 'No se pudo enviar el voto. Por favor, intenta nuevamente.', 'error');
+      }
+    }
+
+    // Render election
+    function renderElection() {
+      const app = document.getElementById('app');
+
+      if (!currentElection) {
+        if (shouldRerender('none')) {
+          fetchLatestResults();
+        }
+        return;
+      }
+
+      const statusClass = `status-${currentElection.status}`;
+      const statusText = currentElection.status.toUpperCase();
+
+      // Show "already voted" screen if user has voted
+      if (hasVotedInCurrent) {
+        if (!shouldRerender('voted')) {
+          return; // Don't re-render if already showing voted screen
+        }
+
+        app.innerHTML = `
+          <span class="status-badge ${statusClass}">${statusText}</span>
+
+          <div class="election-info">
+            <h2>${currentElection.name}</h2>
+            <p><strong>Cierra:</strong> ${new Date(currentElection.close_datetime).toLocaleString('es-ES')}</p>
+          </div>
+
+          <div class="already-voted-container">
+            <div class="already-voted-icon">✓</div>
+            <h3>¡Ya has Votado!</h3>
+            <p>${currentVoterName ? `¡Gracias, ${currentVoterName}!` : '¡Gracias!'} Tu voto ha sido registrado.</p>
+            <p>Los resultados estarán disponibles cuando cierre la votación.</p>
+            <button class="btn btn-primary" onclick="resetVoteStatus()">Votar con Código Diferente</button>
+          </div>
+
+          <div class="refresh-timer">
+            Conectado - Actualizaciones en tiempo real activadas
+          </div>
+        `;
+        return;
+      }
+
+      if (!shouldRerender('voting')) {
+        return; // Don't re-render if user is actively using the form
+      }
+
+      // Save current form state before re-rendering
+      const oldKeyCode = document.getElementById('keyCode')?.value || '';
+      const oldSelection = selectedCandidate;
+
+      app.innerHTML = `
+        <span class="status-badge ${statusClass}">${statusText}</span>
+
+        <div class="election-info">
+          <h2>${currentElection.name}</h2>
+          <p><strong>Inicia:</strong> ${new Date(currentElection.start_datetime).toLocaleString('es-ES')}</p>
+          <p><strong>Cierra:</strong> ${new Date(currentElection.close_datetime).toLocaleString('es-ES')}</p>
+        </div>
+
+        <div id="message"></div>
+
+        <div class="key-code-input">
+          <label for="keyCode">Ingresa tu Código de 6 Caracteres</label>
+          <input
+            type="password"
+            id="keyCode"
+            maxlength="6"
+            placeholder="******"
+            autocomplete="off"
+          >
+        </div>
+
+        <div class="candidates">
+          ${currentElection.candidates.map(candidate => `
+            <div class="candidate-card" onclick="selectCandidate(${candidate.id})">
+              <span class="candidate-name">${candidate.name}</span>
+              <div class="radio"></div>
+            </div>
+          `).join('')}
+        </div>
+
+        <button class="btn btn-primary" onclick="submitVote()">
+          Enviar Voto
+        </button>
+
+        <div class="refresh-timer">
+          Conectado - Actualizaciones en tiempo real activadas
+        </div>
+      `;
+
+      // Restore form state after re-rendering
+      setTimeout(() => {
+        if (oldKeyCode) {
+          const keyCodeInput = document.getElementById('keyCode');
+          if (keyCodeInput) {
+            keyCodeInput.value = oldKeyCode;
+          }
+        }
+
+        if (oldSelection) {
+          selectedCandidate = oldSelection;
+          // Re-select the previously selected candidate
+          const cards = document.querySelectorAll('.candidate-card');
+          cards.forEach((card) => {
+            const onclick = card.getAttribute('onclick');
+            if (onclick && onclick.includes(`selectCandidate(${oldSelection})`)) {
+              card.classList.add('selected');
+            }
+          });
+        }
+      }, 0);
+    }
+
+    // Reset vote status (for voting with different key)
+    function resetVoteStatus() {
+      hasVotedInCurrent = false;
+      currentVoterName = null;
+      fetchCurrentElection();
+    }
+
+    // Render results
+    function renderResults(data) {
+      const app = document.getElementById('app');
+
+      if (!data) {
+        if (shouldRerender('none')) {
+          renderNoElection();
+        }
+        return;
+      }
+
+      if (!shouldRerender('results')) {
+        return; // Don't re-render if already showing results
+      }
+
+      const maxVotes = Math.max(...data.results.map(r => r.vote_count), 1);
+
+      app.innerHTML = `
+        <span class="status-badge status-closed">CERRADO</span>
+
+        <div class="election-info">
+          <h2>${data.election.name}</h2>
+          <p><strong>Total de Votos:</strong> ${data.totalVotes}</p>
+          ${data.winner ? `<p><strong>Ganador:</strong> ${data.winner.name} (${data.winner.votes} votos)</p>` : '<p><strong>Ganador:</strong> No se emitieron votos</p>'}
+        </div>
+
+        <div class="results">
+          <h3 style="margin-bottom: 15px; color: #ffd700; text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);">Resultados Finales</h3>
+          ${data.results.map((result, index) => `
+            <div class="result-item">
+              <div class="result-header">
+                <div style="display: flex; align-items: center; gap: 10px;">
+                  <span class="result-name">${result.name}</span>
+                  ${index === 0 && result.vote_count > 0 ? '<span class="winner-badge">Ganador</span>' : ''}
+                </div>
+                <span class="result-votes">${result.vote_count} votos</span>
+              </div>
+              <div class="result-bar">
+                <div class="result-bar-fill" style="width: ${(result.vote_count / maxVotes * 100)}%"></div>
+              </div>
+            </div>
+          `).join('')}
+        </div>
+
+        <div class="message message-info" style="margin-top: 20px;">
+          Esta votación ha finalizado. Los resultados ya están disponibles.
+        </div>
+
+        <div class="refresh-timer">
+          Conectado - Actualizaciones en tiempo real activadas
+        </div>
+      `;
+    }
+
+    // Render no election
+    function renderNoElection() {
+      if (!shouldRerender('none')) {
+        return;
+      }
+
+      const app = document.getElementById('app');
+      app.innerHTML = `
+        <div class="no-election">
+          <h3>No hay Votación Activa</h3>
+          <p>Actualmente no hay ninguna votación activa. Por favor, vuelve más tarde.</p>
+        </div>
+        <div class="refresh-timer">
+          Conectado - Actualizaciones en tiempo real activadas
+        </div>
+      `;
+    }
+
+    // Render error
+    function renderError(message) {
+      const app = document.getElementById('app');
+      app.innerHTML = `
+        <div class="message message-error">
+          ${message}
+        </div>
+      `;
+    }
+
+    // Select candidate
+    function selectCandidate(candidateId) {
+      selectedCandidate = candidateId;
+      document.querySelectorAll('.candidate-card').forEach(card => {
+        card.classList.remove('selected');
+      });
+      event.currentTarget.classList.add('selected');
+    }
+
+    // Initialize
+    initWebSocket();
+    fetchCurrentElection(); // Initial fetch as fallback
+  </script>
+</body>
+</html>

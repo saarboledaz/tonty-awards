@@ -1,0 +1,417 @@
+{
+	"info": {
+		"_postman_id": "election-system-api-v2",
+		"name": "Election System API",
+		"description": "Complete API collection for the Election System with voter management",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Admin - Voter Management",
+			"item": [
+				{
+					"name": "Import Voters from File",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "X-Admin-Key",
+								"value": "{{ADMIN_KEY}}",
+								"description": "Admin authentication key"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"filePath\": \"voters.txt\"\n}"
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/api/admin/voters/import",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"admin",
+								"voters",
+								"import"
+							]
+						},
+						"description": "Import voters from a text file. File format: Name,KEYCODE (one per line)"
+					},
+					"response": []
+				},
+				{
+					"name": "Add Single Voter",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "X-Admin-Key",
+								"value": "{{ADMIN_KEY}}",
+								"description": "Admin authentication key"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"John Doe\",\n  \"keyCode\": \"ABCDEF\"\n}"
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/api/admin/voters",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"admin",
+								"voters"
+							]
+						},
+						"description": "Add a single voter with name and 6-letter key code"
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Voters",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-Admin-Key",
+								"value": "{{ADMIN_KEY}}",
+								"description": "Admin authentication key"
+							}
+						],
+						"url": {
+							"raw": "{{BASE_URL}}/api/admin/voters",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"admin",
+								"voters"
+							]
+						},
+						"description": "List all registered voters with their key codes"
+					},
+					"response": []
+				},
+				{
+					"name": "Generate Random Key Code",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-Admin-Key",
+								"value": "{{ADMIN_KEY}}",
+								"description": "Admin authentication key"
+							}
+						],
+						"url": {
+							"raw": "{{BASE_URL}}/api/admin/voters/generate-keycode",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"admin",
+								"voters",
+								"generate-keycode"
+							]
+						},
+						"description": "Generate a random unique 6-letter key code"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Single Voter",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "X-Admin-Key",
+								"value": "{{ADMIN_KEY}}",
+								"description": "Admin authentication key"
+							}
+						],
+						"url": {
+							"raw": "{{BASE_URL}}/api/admin/voters/1",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"admin",
+								"voters",
+								"1"
+							]
+						},
+						"description": "Delete a specific voter by ID"
+					},
+					"response": []
+				},
+				{
+					"name": "Clear All Voters",
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "X-Admin-Key",
+								"value": "{{ADMIN_KEY}}",
+								"description": "Admin authentication key"
+							}
+						],
+						"url": {
+							"raw": "{{BASE_URL}}/api/admin/voters",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"admin",
+								"voters"
+							]
+						},
+						"description": "Delete all voters from the database"
+					},
+					"response": []
+				}
+			],
+			"description": "Endpoints for managing voters"
+		},
+		{
+			"name": "Admin - Election Management",
+			"item": [
+				{
+					"name": "Create Election",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							},
+							{
+								"key": "X-Admin-Key",
+								"value": "{{ADMIN_KEY}}",
+								"description": "Admin authentication key"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"Student Council President 2024\",\n  \"startDatetime\": \"2024-01-15T09:00:00Z\",\n  \"closeDatetime\": \"2024-01-15T17:00:00Z\",\n  \"candidates\": [\n    \"Alice Johnson\",\n    \"Bob Smith\",\n    \"Carol Williams\",\n    \"David Martinez\"\n  ]\n}"
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/api/admin/elections",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"admin",
+								"elections"
+							]
+						},
+						"description": "Create a new election with candidates. Only one election can be active at a time."
+					},
+					"response": []
+				},
+				{
+					"name": "Get All Elections",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-Admin-Key",
+								"value": "{{ADMIN_KEY}}",
+								"description": "Admin authentication key"
+							}
+						],
+						"url": {
+							"raw": "{{BASE_URL}}/api/admin/elections",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"admin",
+								"elections"
+							]
+						},
+						"description": "List all elections with their status and metadata"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Election Details",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "X-Admin-Key",
+								"value": "{{ADMIN_KEY}}",
+								"description": "Admin authentication key"
+							}
+						],
+						"url": {
+							"raw": "{{BASE_URL}}/api/admin/elections/1",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"admin",
+								"elections",
+								"1"
+							]
+						},
+						"description": "Get detailed information about a specific election including candidates"
+					},
+					"response": []
+				},
+				{
+					"name": "Close Election Manually",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "X-Admin-Key",
+								"value": "{{ADMIN_KEY}}",
+								"description": "Admin authentication key"
+							}
+						],
+						"url": {
+							"raw": "{{BASE_URL}}/api/admin/elections/1/close",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"admin",
+								"elections",
+								"1",
+								"close"
+							]
+						},
+						"description": "Manually close an active election before its scheduled close time"
+					},
+					"response": []
+				}
+			],
+			"description": "Endpoints for managing elections"
+		},
+		{
+			"name": "Public - Voting",
+			"item": [
+				{
+					"name": "Get Current Election",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/api/current-election",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"current-election"
+							]
+						},
+						"description": "Get the currently active election with candidates. Returns null if no election is active."
+					},
+					"response": []
+				},
+				{
+					"name": "Cast Vote",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"keyCode\": \"ABCDEF\",\n  \"candidateId\": 1\n}"
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/api/vote",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"vote"
+							]
+						},
+						"description": "Cast a vote using voter's 6-letter key code. Each voter can only vote once per election."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Latest Results",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/api/results/latest",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"results",
+								"latest"
+							]
+						},
+						"description": "Get results for the most recent closed election including winner and vote counts"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Election Results by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/api/results/1",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"results",
+								"1"
+							]
+						},
+						"description": "Get results for a specific closed election by ID"
+					},
+					"response": []
+				}
+			],
+			"description": "Public endpoints for voting and viewing results"
+		}
+	],
+	"variable": [
+		{
+			"key": "BASE_URL",
+			"value": "http://localhost:3000",
+			"type": "string"
+		},
+		{
+			"key": "ADMIN_KEY",
+			"value": "admin-secret-key",
+			"type": "string"
+		}
+	]
+}
